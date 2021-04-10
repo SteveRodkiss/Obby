@@ -12,7 +12,7 @@ public class PlayerMovement : MonoBehaviour
     //the movement speed
     float moveSpeed = 5f;
     //jympspeed
-    float jumpSpeed = 10f;
+    float jumpSpeed = 12f;
     //the animator
     public Animator animator;
     //the camera so it you can move relative to the camera direction
@@ -40,17 +40,14 @@ public class PlayerMovement : MonoBehaviour
         controllerInput = Vector3.ClampMagnitude(controllerInput, 1f) * moveSpeed;
         //make it fall
         yVelocity -= gravity * Time.deltaTime;
-        if (Input.GetButtonDown("Jump"))
+        if (cc.isGrounded)
         {
-            if (cc.isGrounded)
+            yVelocity = -gravity * Time.deltaTime;
+            if (Input.GetButtonDown("Jump"))
             {
                 animator.SetTrigger("jump");
                 yVelocity = jumpSpeed;
             }
-            else
-            {
-                yVelocity = -1f;
-            }    
         }
         //now the move vector
         //first rotate the move vector relative to the camera
@@ -74,9 +71,5 @@ public class PlayerMovement : MonoBehaviour
         camForward.y = 0;
         return camForward.normalized;
     }
-
-
-
-
 
 }
